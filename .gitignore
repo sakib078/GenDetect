@@ -1,0 +1,2 @@
+# Exclude the assignment brief (large binary; not part of deliverables)
+*.docx
