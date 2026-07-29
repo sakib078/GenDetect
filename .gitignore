@@ -1,2 +1,12 @@
 # Exclude the assignment brief (large binary; not part of deliverables)
 *.docx
+# Data files (download via script; do not commit large datasets)
+data_processing/data/raw/*
+data_processing/data/processed/*
+!data_processing/data/raw/.gitkeep
+!data_processing/data/processed/.gitkeep
+
+
+# dataset 
+
+data_processing/data/AI_Human.csv
