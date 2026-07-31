@@ -33,8 +33,19 @@ from preprocessing import transformer_text, classical_preprocess
 
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-DEFAULT_INPUT = os.path.join(HERE, "data", "AI_Human.csv")
-DEFAULT_OUTDIR = os.path.join(HERE, "data", "processed")
+
+# Default paths auto-adapt to where you run:
+#   * On Colab, if the shared Drive folder exists, read/write there so the split
+#     persists across sessions and is shared by both members.
+#   * Otherwise fall back to the local repo layout.
+# Override either with --input / --outdir at any time.
+DRIVE_DIR = "/content/drive/MyDrive/NLP_project"
+if os.path.isdir(DRIVE_DIR):
+    DEFAULT_INPUT = os.path.join(DRIVE_DIR, "AI_Human.csv")
+    DEFAULT_OUTDIR = os.path.join(DRIVE_DIR, "processed")
+else:
+    DEFAULT_INPUT = os.path.join(HERE, "data", "AI_Human.csv")
+    DEFAULT_OUTDIR = os.path.join(HERE, "data", "processed")
 
 
 def load_and_clean(input_path: str, sample: int | None, seed: int) -> pd.DataFrame:
