@@ -15,6 +15,9 @@
 
 ### Exploratory Data Analysis → `data_processing/eda.ipynb`
 - [ ] **Class distribution** — how balanced is human vs. AI? (bar chart)
+- [ ] **Class imbalance handling** — dataset is ~63% human / 37% AI (mild). Decision: **stratify**
+      all splits + report **macro-F1** (not just accuracy). Only reweight the *training* set later
+      if AI recall lags; never resample val/test.
 - [ ] **Text length** — distribution of word/char counts per class (histograms)
 - [ ] **Vocabulary** — vocab size, most common words, differences between classes
 - [ ] Check for nulls, duplicates, and any weird/garbage rows
@@ -43,9 +46,12 @@
 - [ ] Train a classic classifier (Logistic Regression to start)
 - [ ] **Stretch (for "Excellent"):** also train Naive Bayes and/or SVM and compare
 - [ ] Tune a couple of basic settings (e.g., TF-IDF `ngram_range`, `max_features`, regularization `C`)
+- [ ] **Class imbalance:** run default vs. `class_weight='balanced'` (LogReg/SVM) and compare —
+      only reweight the *training* set; keep val/test at the natural 63/37 ratio
 
 ### Evaluate → `classical_model/metrics.py` (+ `results/`)
-- [ ] Build a shared `metrics.py` returning **accuracy, precision, recall, F1** (Member B reuses this)
+- [ ] Build a shared `metrics.py` returning **accuracy, precision, recall, F1** — include
+      **per-class** P/R/F1 and **macro-F1** (the honest headline metric under imbalance) (Member B reuses this)
 - [ ] Evaluate on the shared **test set**
 - [ ] Record the **baseline score** — this is the number the Transformer must beat
 - [ ] Save metrics table + any plots to `classical_model/results/`
