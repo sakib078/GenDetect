@@ -101,27 +101,41 @@ The project requires: text preprocessing, feature representation, classic ML, mo
 
 ---
 
-## 7. Suggested Repository Structure
+## 7. Repository Structure
+
+The repo is organized into three work folders. `data_processing/` is **shared** (Member A owns it, Member B reuses its cleaned data + canonical split in Week 2).
 
 ```
-ai-text-detector/
-├── README.md                 # How to run + reproduce
-├── requirements.txt
-├── data/                     # (or download script if data too large for git)
-├── notebooks/
-│   ├── 01_eda.ipynb
-│   ├── 02_baseline_tfidf.ipynb
-│   ├── 03_transformer_finetune.ipynb
-│   └── 04_error_analysis.ipynb
-├── src/
-│   ├── preprocessing.py      # shared pipeline
-│   ├── data_split.py         # shared train/val/test split
-│   ├── metrics.py            # shared evaluation module
-│   └── train_transformer.py
-├── experiments/
-│   └── hyperparameter_log.md # log of runs + results
-├── results/                  # saved plots, tables, metrics
-└── report/
+AITrace/
+├── README.md                       # Project overview + how to run
+├── PROJECT_PLAN.md                 # This file — requirements, approach, rubric
+├── WORK_DIVISION.md                # Per-member task assignments
+├── TODO.md                         # Member A's Week 1 checklist
+├── .gitignore                      # Ignores *.docx and large data files
+│
+├── data_processing/                # SHARED — Member A owns, Member B reuses
+│   ├── README.md
+│   ├── data/
+│   │   ├── raw/                     # Kaggle dataset (git-ignored)
+│   │   └── processed/              # cleaned data + canonical split (git-ignored)
+│   ├── eda.ipynb                   # EDA: length, vocabulary, class distribution
+│   ├── preprocessing.py            # reusable cleaning + tokenization pipeline
+│   └── data_split.py               # ONE canonical train/val/test split
+│
+├── classical_model/                # Member A (Week 1)
+│   ├── README.md
+│   ├── tfidf_features.py           # TF-IDF feature builder
+│   ├── train_baseline.ipynb        # train + evaluate classic classifier(s)
+│   ├── metrics.py                  # shared metrics (accuracy/P/R/F1)
+│   └── results/                    # saved baseline scores, tables, plots
+│
+├── fine_tuning/                    # Member B (Week 2)
+│   ├── README.md
+│   ├── train_transformer.py        # tokenize + fine-tune Transformer
+│   ├── hyperparameter_log.md       # log of runs + results
+│   └── results/                    # Transformer metrics, comparison vs. baseline
+│
+└── report/                         # Week 3 deliverables
     ├── final_report.pdf
     └── slides.pdf
 ```

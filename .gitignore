@@ -7,6 +7,11 @@ data_processing/data/processed/*
 !data_processing/data/processed/.gitkeep
 
 
-# dataset 
+# dataset
 
 data_processing/data/AI_Human.csv
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/

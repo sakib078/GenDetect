@@ -1,0 +1,24 @@
+# SEA 820 · AITrace — project dependencies
+
+# Core data / ML
+pandas>=1.3
+numpy>=1.20
+scikit-learn>=1.0
+scipy>=1.7
+
+# NLP preprocessing (classical pipeline)
+nltk>=3.8
+
+# EDA / plotting
+matplotlib>=3.5
+
+# Fast columnar I/O for the canonical split (Parquet)
+pyarrow>=10.0
+
+# Transformer path (Week 2) — also used in EDA for sub-word length analysis
+transformers>=4.30
+datasets>=2.10
+torch>=2.0
+
+# Notebooks
+jupyter>=1.0

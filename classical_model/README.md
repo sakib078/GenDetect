@@ -1,6 +1,6 @@
 # Classical Model (Baseline)
 
-**Owner:** Member A · **Week 1**
+**Owner:** Sakib S · **Week 1**
 
 The "classic" baseline the Transformer must beat. Consumes the cleaned data and the canonical split from `../data_processing/`.
 
