@@ -1,0 +1,9 @@
+Classical baseline (TEST)
+best model    : LinearSVC
+tfidf         : ngram=(1, 2), max_features=50000, length_feats=True
+C (LR / SVM)  : 10.0 / 10.0
+accuracy      : 0.9997
+macro_f1      : 0.9997  <- number the Transformer must beat
+AI  P/R/F1    : 0.9996/0.9997/0.9996
+NOTE: score is inflated by dataset artifacts (placeholders + prompt-topic words);
+      see the shortcut analysis. Expect poor out-of-distribution transfer.

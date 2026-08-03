@@ -22,3 +22,6 @@ torch>=2.0
 
 # Notebooks
 jupyter>=1.0
+
+#demo
+pypdf
