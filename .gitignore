@@ -15,3 +15,14 @@ data_processing/data/AI_Human.csv
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
+
+# Model weights and training checkpoints (too large for git)
+transformer_model/results/best_model_*/
+transformer_model/results/run/
+*.safetensors
+optimizer.pt
+scheduler.pt
+rng_state.pth
+
+# macOS
+.DS_Store

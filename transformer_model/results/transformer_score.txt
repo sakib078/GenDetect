@@ -1,0 +1,11 @@
+DistilBERT fine-tuned (TEST)
+accuracy: 0.9936666666666667
+macro_f1: 0.993213780787261
+precision_human: 0.992600422832981
+recall_human: 0.997344662772172
+f1_human: 0.9949668874172185
+support_human: 1883
+precision_AI: 0.9954873646209387
+recall_AI: 0.9874664279319606
+f1_AI: 0.9914606741573033
+support_AI: 1117
