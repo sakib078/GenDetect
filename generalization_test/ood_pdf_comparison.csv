@@ -1,0 +1,7 @@
+file,topic,true,LogReg,LinearSVC,DistilBERT,DistilBERT_AI%
+human_01_public_domain.pdf,public_domain,human,human,human,AI,99.3
+ai_01_public_domain.pdf,public_domain,AI,AI,AI,AI,100.0
+human_02_aspirin_pharmacology.pdf,aspirin_pharmacology,human,human,human,AI,100.0
+ai_02_aspirin_pharmacology.pdf,aspirin_pharmacology,AI,AI,AI,AI,100.0
+human_03_aspirin_history.pdf,aspirin_history,human,AI,AI,AI,100.0
+ai_03_aspirin_history.pdf,aspirin_history,AI,AI,AI,AI,100.0
