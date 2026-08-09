@@ -1,8 +1,8 @@
 # Classical Baseline — Results & Interpretation
 
 **SEA 820 · GenDetect (Detecting AI-Generated Text) · Part 2 (Member A)**
-Source notebooks: [`train_baseline.ipynb`](train_baseline.ipynb) · [`predict_demo.ipynb`](predict_demo.ipynb)
-Models & artifacts: [`classical_results/`](classical_results/)
+Source notebooks: [`train_baseline.ipynb`](classical_model/train_baseline.ipynb) · [`predict_demo.ipynb`](generalization_test/predict_demo.ipynb)
+Models & artifacts: [`classical_results/`](classical_model/classical_results/) · Cross-model comparison: [`MODEL_COMPARISON.md`](MODEL_COMPARISON.md)
 
 ---
 
@@ -14,8 +14,8 @@ Models & artifacts: [`classical_results/`](classical_results/)
   exploiting *dataset artifacts* (prompt-topic words, redaction placeholders, essay connectives),
   not by understanding "AI-ness."
 - A generalization test on 6 real PDFs drops accuracy to **83% (5/6)**, and a short-text
-  out-of-distribution probe collapses to **~50%**, where the model labels almost everything "AI"
-  with ~100% confidence.
+  out-of-distribution probe drops to **60% (3/5)** — the model flags casual human messages as "AI"
+  at ~99% confidence.
 - **Takeaway:** report the baseline honestly as *high in-distribution, non-transferable*. The
   meaningful Week-2 comparison is robustness, not raw accuracy.
 
@@ -81,15 +81,15 @@ split — the model reliably finds the shortcut.
 
 <table>
 <tr>
-<td align="center"><img src="classical_results/model_comparison.png" width="360"><br><sub>All models cluster near the ceiling (x-axis from 0.90)</sub></td>
-<td align="center"><img src="classical_results/roc_pr_curves.png" width="360"><br><sub>ROC & PR curves — AUC ≈ 1.0</sub></td>
+<td align="center"><img src="classical_model/classical_results/model_comparison.png" width="360"><br><sub>All models cluster near the ceiling (x-axis from 0.90)</sub></td>
+<td align="center"><img src="classical_model/classical_results/roc_pr_curves.png" width="360"><br><sub>ROC & PR curves — AUC ≈ 1.0</sub></td>
 </tr>
 <tr>
-<td align="center"><img src="classical_results/separability.png" width="360"><br><sub>Decision-score histogram — classes barely overlap</sub></td>
-<td align="center"><img src="classical_results/cv_consistency.png" width="360"><br><sub>5-fold CV — std ≈ 0.0005 (stable)</sub></td>
+<td align="center"><img src="classical_model/classical_results/separability.png" width="360"><br><sub>Decision-score histogram — classes barely overlap</sub></td>
+<td align="center"><img src="classical_model/classical_results/cv_consistency.png" width="360"><br><sub>5-fold CV — std ≈ 0.0005 (stable)</sub></td>
 </tr>
 <tr>
-<td align="center"><img src="classical_results/confusion_test.png" width="360"><br><sub>Confusion matrix (row-normalized) — test set</sub></td>
+<td align="center"><img src="classical_model/classical_results/confusion_test.png" width="360"><br><sub>Confusion matrix (row-normalized) — test set</sub></td>
 <td></td>
 </tr>
 </table>
@@ -134,7 +134,7 @@ most of the rest are register markers. Very little is a *universal* signal of ma
 - False positives = **humans flagged as AI**, mostly messy/non-standard writing — the ethically
   sensitive direction (see §7).
 
-<p align="center"><img src="classical_results/error_wordcount.png" width="440"><br><sub>Misclassified texts are shorter than correctly classified ones</sub></p>
+<p align="center"><img src="classical_model/classical_results/error_wordcount.png" width="440"><br><sub>Misclassified texts are shorter than correctly classified ones</sub></p>
 
 ---
 
@@ -163,11 +163,15 @@ same prediction → the model is reading **topic/format, not authorship**.
 
 ### 5.2 Short informal text
 
-On a small probe of casual/news snippets, the model labelled **nearly everything "AI"** — including
-a human's typo-filled message — at up to **100% confidence**, scoring around **50%**. Short OOD text
-lacks the artifact tokens, so the model defaults toward "AI." This also shows the probabilities are
-**badly calibrated**: because the training data is trivially separable, outputs pile up near 0% and
-100% and rarely give an informative middle value.
+On a small probe of 5 casual snippets, both classical models scored **3/5 = 60%** — they got all 3
+AI texts right but **flagged both casual human messages as "AI"** (LogReg at 99.9% / 98.8%
+confidence). Short informal text lacks the "human" artifact tokens (`venus`, `school`, redaction
+placeholders), so the model defaults toward "AI." This also shows the probabilities are **badly
+calibrated**: because the training data is trivially separable, outputs pile up near 0% and 100% and
+rarely give an informative middle value.
+
+> For the cross-model view — where DistilBERT scores **5/5** here but only **50%** on the formal
+> PDFs, the mirror image of the classical models — see [`MODEL_COMPARISON.md`](MODEL_COMPARISON.md) §B.2.
 
 ---
 
@@ -179,7 +183,7 @@ lacks the artifact tokens, so the model defaults toward "AI." This also shows th
 | Decision-score histogram | Two classes barely overlap | *Why* the score looks perfect |
 | 5-fold CV | mean 0.993, std 0.0005 | Stable, not a lucky split |
 | Model spread | all ≥ 0.97 | Task is easy, not model clever |
-| OOD (PDF / short text) | 83% / ~50% | The score does **not** transfer |
+| OOD (PDF / short text) | 83% / 60% | The score does **not** transfer |
 
 ---
 
@@ -211,10 +215,10 @@ just the headline metric. Member B should know this before framing the compariso
 
 | Artifact | Location |
 |---|---|
-| Training + diagnostics | `train_baseline.ipynb` |
-| Generalization demo | `predict_demo.ipynb` |
-| Saved models | `classical_results/models/` (`tfidf_vectorizer`, `LogReg`, `LinearSVC`, `config`) |
-| Metrics / plots | `classical_results/` |
+| Training + diagnostics | `classical_model/train_baseline.ipynb` |
+| Generalization demo | `generalization_test/predict_demo.ipynb` |
+| Saved models | `classical_model/classical_results/models/` (`tfidf_vectorizer`, `LogReg`, `LinearSVC`, `config`) |
+| Metrics / plots | `classical_model/classical_results/` |
 | Chosen config | LinearSVC · `C=10` · `class_weight='balanced'` · TF-IDF `(1,2)`, `max_features=50,000` · `use_length=True` |
 
 Shared modules: `tfidf_features.py` (features, no-leakage fit) and `metrics.py` (scoring — reused
@@ -227,7 +231,7 @@ by Member B for a fair comparison). All runs use `random_state=42`.
 The classical baseline achieves **macro-F1 0.9997** on the held-out test set — a strong headline
 number, and a valid target for the Transformer. But the interpretation, error analysis, and
 generalization tests together show that number is a **shortcut**: the model separates *data
-sources*, not *human vs. machine writing*, and it does not transfer (83% on real PDFs, ~50% on
+sources*, not *human vs. machine writing*, and it does not transfer (83% on real PDFs, 60% on
 short OOD text). The honest framing for the report is:
 
 > *"High on the benchmark, unproven in the wild."*
