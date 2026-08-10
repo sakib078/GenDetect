@@ -5,7 +5,7 @@
 **Duration:** 3 Weeks
 **Grade Weight:** 20% of course (scored out of 100)
 
-> This document captures the full project requirements and our approach. The per-member task assignments live in **[WORK_DIVISION.md](WORK_DIVISION.md)**.
+> This document captures the full project requirements and our approach. For the repository layout and how to run it, see **[README.md](README.md)**.
 
 ---
 
@@ -75,74 +75,7 @@ The project requires: text preprocessing, feature representation, classic ML, mo
 2. **Final Report (PDF)** — professional report covering the project start to finish.
 3. **Presentation Slides (PDF)** — slides for a **5–7 minute** final presentation.
 
----
-
-## 6. Grading Rubric (how we are scored — target every line)
-
-| Category | Weight | Criterion | Points |
-|---|---|---|---|
-| **1. Code & Implementation** | 40% | A. Baseline "Classic" Model | /10 |
-| | | B. Transformer Fine-Tuning | /20 |
-| | | C. Code Quality & Reproducibility | /10 |
-| **2. Evaluation & Analysis** | 30% | A. Performance Metrics & Comparison | /15 |
-| | | B. Error Analysis & Insights | /15 |
-| **3. Final Report & Ethics** | 20% | A. Report Clarity & Structure | /10 |
-| | | B. Ethical Considerations | /10 |
-| **4. Presentation** | 10% | A. Clarity & Delivery | /10 |
-| **Total** | | | **/100** |
-
-**To hit the "Excellent" band, aim for the stretch goals:**
-- Baseline: compare **2+ classic models** or do feature engineering beyond basic TF-IDF.
-- Transformer: show **systematic hyperparameter tuning**; optionally try a more advanced model/technique (**RoBERTa, PEFT/LoRA**).
-- Metrics: full comparison table/plots + discuss **metric trade-offs** in context.
-- Error analysis: inspect **specific** false positives/negatives with hypotheses + improvement suggestions.
-- Ethics: connect discussion back to **your specific findings** (e.g., non-native English speakers flagged incorrectly).
-- Presentation: **both members contribute**, stay within time.
-
----
-
-## 7. Repository Structure
-
-The repo is organized into three work folders. `data_processing/` is **shared** (Member A owns it, Member B reuses its cleaned data + canonical split in Week 2).
-
-```
-AITrace/
-├── README.md                       # Project overview + how to run
-├── PROJECT_PLAN.md                 # This file — requirements, approach, rubric
-├── WORK_DIVISION.md                # Per-member task assignments
-├── TODO.md                         # Member A's Week 1 checklist
-├── .gitignore                      # Ignores *.docx and large data files
-│
-├── data_processing/                # SHARED — Member A owns, Member B reuses
-│   ├── README.md
-│   ├── data/
-│   │   ├── raw/                     # Kaggle dataset (git-ignored)
-│   │   └── processed/              # cleaned data + canonical split (git-ignored)
-│   ├── eda.ipynb                   # EDA: length, vocabulary, class distribution
-│   ├── preprocessing.py            # reusable cleaning + tokenization pipeline
-│   └── data_split.py               # ONE canonical train/val/test split
-│
-├── classical_model/                # Member A (Week 1)
-│   ├── README.md
-│   ├── tfidf_features.py           # TF-IDF feature builder
-│   ├── train_baseline.ipynb        # train + evaluate classic classifier(s)
-│   ├── metrics.py                  # shared metrics (accuracy/P/R/F1)
-│   └── results/                    # saved baseline scores, tables, plots
-│
-├── fine_tuning/                    # Member B (Week 2)
-│   ├── README.md
-│   ├── train_transformer.py        # tokenize + fine-tune Transformer
-│   ├── hyperparameter_log.md       # log of runs + results
-│   └── results/                    # Transformer metrics, comparison vs. baseline
-│
-└── report/                         # Week 3 deliverables
-    ├── final_report.pdf
-    └── slides.pdf
-```
-
----
-
-## 8. Definition of Done (checklist against the rubric)
+## 6. Definition of Done (checklist against the rubric)
 
 - [ ] Baseline classic model implemented + valid baseline score recorded (bonus: 2+ models / feature engineering)
 - [ ] Transformer fine-tuned via HF Trainer with a documented hyperparameter log (bonus: RoBERTa/PEFT)
