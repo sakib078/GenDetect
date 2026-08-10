@@ -2,7 +2,7 @@
 
 **SEA 820 · GenDetect (Detecting AI-Generated Text) · Part 2 (Member A)**
 Source notebooks: [`train_baseline.ipynb`](classical_model/train_baseline.ipynb) · [`predict_demo.ipynb`](generalization_test/predict_demo.ipynb)
-Models & artifacts: [`classical_results/`](classical_model/classical_results/) · Cross-model comparison: [`MODEL_COMPARISON.md`](MODEL_COMPARISON.md)
+Models & artifacts: [`classical_results/`](classical_model/classical_results/) · Cross-model comparison: [§8 below](#8-cross-model-comparison--classical-vs-transformer)
 
 ---
 
@@ -171,7 +171,7 @@ calibrated**: because the training data is trivially separable, outputs pile up 
 rarely give an informative middle value.
 
 > For the cross-model view — where DistilBERT scores **5/5** here but only **50%** on the formal
-> PDFs, the mirror image of the classical models — see [`MODEL_COMPARISON.md`](MODEL_COMPARISON.md) §B.2.
+> PDFs, the mirror image of the classical models — see **§8** below.
 
 ---
 
@@ -201,13 +201,47 @@ rarely give an informative middle value.
 
 ---
 
-## 8. Implications for Week 2 (Transformer)
+## 8. Cross-model comparison — Classical vs Transformer
 
-Because the in-distribution ceiling is ~99.97%, **DistilBERT will very likely also score ~99%** on
-the same test set. "Did the Transformer beat the baseline?" will therefore be **within noise** on
-raw accuracy. The genuinely informative comparison is **robustness / out-of-distribution**: re-run
-`predict_demo.ipynb`'s PDF and short-text tests on the Transformer and compare *generalization*, not
-just the headline metric. Member B should know this before framing the comparison.
+Member B fine-tuned **DistilBERT** on the *same* canonical split and scored it with the *same*
+`metrics.py`, so the comparison below is fair and leakage-free.
+
+### 8.1 In-distribution (test set, n = 73,085)
+
+| Model | Accuracy | Macro-F1 | Errors |
+|---|---|---|---|
+| **Classical — LinearSVC** ★ | 0.9997 | **0.9997** | 21 |
+| Classical — LogReg | 0.9995 | 0.9995 | ~35 |
+| **Transformer — DistilBERT** | 0.99958 | 0.99955 | 31 |
+
+**The Transformer did not beat the baseline** — it is ~0.0001 *lower* on macro-F1 with *more* errors
+(31 vs 21). On this benchmark a bag-of-words linear model matches a fine-tuned 66M-parameter
+Transformer, because both exploit the same dataset shortcut (§3).
+
+### 8.2 Out-of-distribution — the two probes diverge (the real finding)
+
+We re-ran the `predict_demo.ipynb` OOD tests on **both** models (identical inputs). They fail in
+**opposite directions**:
+
+| Test | Classical | DistilBERT |
+|---|---|---|
+| Benchmark (macro-F1) | ~1.0 | ~1.0 (tie) |
+| Formal PDFs (6 docs) | **83%** | **50%** (chance) |
+| Short informal text (5) | **60%** | **100%** |
+
+<p align="center"><img src="generalization_test/ood_vs_indist.png" width="620"><br>
+<sub>All models tie on the benchmark; off-distribution DistilBERT wins the informal-text probe while
+the linear baselines win the formal PDFs.</sub></p>
+
+- **DistilBERT** keys on **register/formality** → it calls all 6 formal PDFs (including every human
+  one) "AI" at 99–100%, but handles casual human messages correctly.
+- **Classical** keys on **topic/artifact tokens** → it separates the formal pairs but flags casual
+  human text as "AI".
+- **Neither detects authorship.** Each is confidently wrong exactly where the other is right, so
+  there is **no overall winner** — robustness depends on the input.
+
+> *Caveat — tiny samples (5 texts, 6 PDFs, only 3 human). Percentages are indicative, not
+> definitive; the robust result is the qualitative divergence, confirmed by both probes.*
 
 ---
 
