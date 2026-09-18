@@ -1,4 +1,4 @@
-# GenDetect — Detecting AI-Generated Text
+# 🧬 GenDetect — Detecting AI-Generated Text
 
 Human vs. AI text classification (**0 = human-written**, **1 = AI-generated**).
 
